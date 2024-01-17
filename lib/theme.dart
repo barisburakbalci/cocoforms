@@ -1,0 +1,33 @@
+import 'package:flutter/material.dart';
+
+Color primaryTextColor = const Color.fromARGB(255, 0, 31, 79);
+
+ThemeData theme = ThemeData(
+  colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+  scaffoldBackgroundColor: Colors.grey.shade100,
+  appBarTheme: const AppBarTheme(
+    color: Colors.white,
+    elevation: 1.0,
+    shadowColor: Colors.black,
+    titleTextStyle: TextStyle(
+      fontSize: 35.0,
+      fontWeight: FontWeight.w800,
+      color: Colors.black,
+    ),
+  ),
+  listTileTheme: ListTileThemeData(
+    selectedColor: Colors.blue.shade200,
+    selectedTileColor: Colors.blue.shade50,
+  ),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    backgroundColor: Colors.white,
+  ),
+  textTheme: TextTheme(
+    bodyLarge: TextStyle(
+      fontSize: 20.0,
+      color: primaryTextColor,
+      fontWeight: FontWeight.w500,
+    ),
+  ),
+  useMaterial3: true,
+);
