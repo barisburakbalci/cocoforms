@@ -64,28 +64,42 @@ class _CustomerCardState extends State<CustomerCard> {
         if (isExpanded)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: Card(
-              child: FutureBuilder(
-                future: getForms(widget.customer.id),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    List<FormModel> forms = snapshot.data as List<FormModel>;
-                    return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: forms.length,
-                      itemBuilder: (context, index) => ListTile(
-                        title: Text(forms[index].name),
-                        onTap: () {},
-                      ),
-                    );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              ),
+            child: Column(
+              children: [
+                Card(
+                  surfaceTintColor: Colors.white,
+                  child: FutureBuilder(
+                    future: getForms(widget.customer.id),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<FormModel> forms =
+                            snapshot.data as List<FormModel>;
+                        return Column(
+                          children: [
+                            ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: forms.length,
+                              itemBuilder: (context, index) => ListTile(
+                                title: Text(forms[index].name),
+                                onTap: () {},
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Form Doldur'),
+                ),
+              ],
             ),
           ),
       ],
