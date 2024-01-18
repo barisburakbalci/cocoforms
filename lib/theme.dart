@@ -15,6 +15,11 @@ ThemeData theme = ThemeData(
       color: Colors.black,
     ),
   ),
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: MaterialStateProperty.all(Colors.blue.shade900),
+    ),
+  ),
   listTileTheme: ListTileThemeData(
     selectedColor: Colors.blue.shade200,
     selectedTileColor: Colors.blue.shade50,

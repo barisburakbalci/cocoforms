@@ -13,23 +13,59 @@ class BottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      iconSize: 32.0,
+      selectedFontSize: 0,
       type: BottomNavigationBarType.fixed,
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.pending_actions_outlined),
+          activeIcon: Icon(Icons.pending_actions),
           label: 'Formlar',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.library_add_check_outlined),
+          icon: Icon(Icons.query_stats_outlined),
+          activeIcon: SizedBox(
+            height: kBottomNavigationBarHeight,
+            child: Column(
+              children: [
+                FractionallySizedBox(
+                  widthFactor: 0.4,
+                  child: Container(
+                    color: Colors.blue,
+                    height: 2,
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                const Icon(Icons.query_stats),
+              ],
+            ),
+          ),
           label: 'Sonuçlar',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.people),
+          icon: Icon(Icons.people_outline),
+          activeIcon: Icon(Icons.people),
           label: 'Müşteriler',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Ayarlar',
+          icon: Icon(Icons.person_outline),
+          activeIcon: SizedBox(
+            height: kBottomNavigationBarHeight,
+            child: Column(
+              children: [
+                FractionallySizedBox(
+                  widthFactor: 0.4,
+                  child: Container(
+                    color: Colors.blue,
+                    height: 2,
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                const Icon(Icons.person),
+              ],
+            ),
+          ),
+          label: 'Profil',
         ),
       ],
       currentIndex: currentPage,
