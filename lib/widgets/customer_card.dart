@@ -1,7 +1,5 @@
 import 'package:cocoforms/models/customer_model.dart';
-import 'package:cocoforms/models/form_model.dart';
-import 'package:cocoforms/providers/remote_data_provider.dart';
-import 'package:cocoforms/repositories/customer_repository.dart';
+import 'package:cocoforms/widgets/customer_forms.dart';
 import 'package:flutter/material.dart';
 
 class CustomerCard extends StatefulWidget {
@@ -15,12 +13,6 @@ class CustomerCard extends StatefulWidget {
 
 class _CustomerCardState extends State<CustomerCard> {
   bool isExpanded = false;
-
-  Future<List<FormModel>> getForms(int id) async {
-    var repository = CustomerRepository(RemoteDataProvider());
-    var data = await repository.getFormsOfCustomer(widget.customer.id);
-    return data;
-  }
 
   void expandCustomer() {
     setState(() {
@@ -38,7 +30,8 @@ class _CustomerCardState extends State<CustomerCard> {
             padding: const EdgeInsets.all(15.0),
             child: Column(
               children: [
-                InkWell(
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: expandCustomer,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,12 +40,10 @@ class _CustomerCardState extends State<CustomerCard> {
                         widget.customer.name,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      IconButton(
-                        onPressed: expandCustomer,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        style: ButtonStyle(
-                          iconSize: MaterialStateProperty.all(30.0),
-                        ),
+                      AnimatedRotation(
+                        duration: const Duration(milliseconds: 200),
+                        turns: isExpanded ? 0.25 : 0,
+                        child: const Icon(Icons.keyboard_arrow_right),
                       ),
                     ],
                   ),
@@ -61,47 +52,14 @@ class _CustomerCardState extends State<CustomerCard> {
             ),
           ),
         ),
-        if (isExpanded)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: Column(
-              children: [
-                Card(
-                  surfaceTintColor: Colors.white,
-                  child: FutureBuilder(
-                    future: getForms(widget.customer.id),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        List<FormModel> forms =
-                            snapshot.data as List<FormModel>;
-                        return Column(
-                          children: [
-                            ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: forms.length,
-                              itemBuilder: (context, index) => ListTile(
-                                title: Text(forms[index].name),
-                                onTap: () {},
-                              ),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Form Doldur'),
-                ),
-              ],
-            ),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          child: SizedBox(
+            height: isExpanded ? null : 0,
+            child: CustomerForms(customerId: widget.customer.id),
           ),
+        ),
       ],
     );
   }

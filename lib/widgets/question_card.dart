@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cocoforms/models/answer_model.dart';
 import 'package:cocoforms/models/option_model.dart';
 import 'package:flutter/material.dart';
 
@@ -6,10 +9,14 @@ class QuestionCard extends StatefulWidget {
     super.key,
     required this.expression,
     required this.options,
+    required this.answers,
+    this.isEditing = false,
   });
 
   final String expression;
   final List<OptionModel> options;
+  final List<AnswerModel> answers;
+  final bool isEditing;
 
   @override
   State<QuestionCard> createState() => _QuestionCardState();
@@ -17,6 +24,17 @@ class QuestionCard extends StatefulWidget {
 
 class _QuestionCardState extends State<QuestionCard> {
   int checkedId = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    log('Answers Count: ${widget.answers.length}');
+    if (widget.answers.isNotEmpty) {
+      setState(() {
+        checkedId = widget.answers[0].optionId;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +56,7 @@ class _QuestionCardState extends State<QuestionCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: widget.options.map((option) {
                 return CheckboxListTile(
+                  enabled: widget.isEditing,
                   controlAffinity: ListTileControlAffinity.leading,
                   dense: true,
                   shape: BeveledRectangleBorder(
