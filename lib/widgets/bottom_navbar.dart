@@ -10,6 +10,28 @@ class BottomNavbar extends StatelessWidget {
   final int currentPage;
   final Function(int) onItemTapped;
 
+  Widget _bottomNavbarIconBuilder({
+    required IconData icon,
+    bool isSelected = false,
+  }) {
+    return SizedBox(
+      height: kBottomNavigationBarHeight,
+      child: Column(
+        children: [
+          FractionallySizedBox(
+            widthFactor: 0.4,
+            child: Container(
+              color: isSelected ? Colors.blue : Colors.transparent,
+              height: 3,
+            ),
+          ),
+          const SizedBox(height: 8.0),
+          Icon(icon),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -18,52 +40,34 @@ class BottomNavbar extends StatelessWidget {
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.pending_actions_outlined),
-          activeIcon: Icon(Icons.pending_actions),
+          icon: _bottomNavbarIconBuilder(icon: Icons.pending_actions_outlined),
+          activeIcon: _bottomNavbarIconBuilder(
+            icon: Icons.pending_actions,
+            isSelected: true,
+          ),
           label: 'Formlar',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.query_stats_outlined),
-          activeIcon: SizedBox(
-            height: kBottomNavigationBarHeight,
-            child: Column(
-              children: [
-                FractionallySizedBox(
-                  widthFactor: 0.4,
-                  child: Container(
-                    color: Colors.blue,
-                    height: 2,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                const Icon(Icons.query_stats),
-              ],
-            ),
+          icon: _bottomNavbarIconBuilder(icon: Icons.query_stats_outlined),
+          activeIcon: _bottomNavbarIconBuilder(
+            icon: Icons.query_stats,
+            isSelected: true,
           ),
           label: 'Sonuçlar',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.people_outline),
-          activeIcon: Icon(Icons.people),
+          icon: _bottomNavbarIconBuilder(icon: Icons.people_outline),
+          activeIcon: _bottomNavbarIconBuilder(
+            icon: Icons.people,
+            isSelected: true,
+          ),
           label: 'Müşteriler',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
-          activeIcon: SizedBox(
-            height: kBottomNavigationBarHeight,
-            child: Column(
-              children: [
-                FractionallySizedBox(
-                  widthFactor: 0.4,
-                  child: Container(
-                    color: Colors.blue,
-                    height: 2,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                const Icon(Icons.person),
-              ],
-            ),
+          icon: _bottomNavbarIconBuilder(icon: Icons.person_outline),
+          activeIcon: _bottomNavbarIconBuilder(
+            icon: Icons.person,
+            isSelected: true,
           ),
           label: 'Profil',
         ),
