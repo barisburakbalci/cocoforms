@@ -34,5 +34,9 @@ ThemeData theme = ThemeData(
       fontWeight: FontWeight.w500,
     ),
   ),
+  inputDecorationTheme: const InputDecorationTheme(
+    isDense: true,
+    contentPadding: EdgeInsets.only(top: 10.0),
+  ),
   useMaterial3: true,
 );

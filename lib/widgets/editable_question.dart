@@ -20,23 +20,25 @@ class _EditableQuestionState extends State<EditableQuestion> {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
                 controller: TextEditingController(
                   text: widget.question.expression,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Column(
-                  children: widget.question.options
-                      .map(
-                        (option) => EditableOption(
-                          option: option,
-                        ),
-                      )
-                      .toList(),
-                ),
+              Column(
+                children: widget.question.options
+                    .map(
+                      (option) => EditableOption(
+                        option: option,
+                      ),
+                    )
+                    .toList(),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text('Seçenek ekle'),
               ),
             ],
           ),

@@ -13,15 +13,19 @@ class EditableOption extends StatefulWidget {
 class _EditableOptionState extends State<EditableOption> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      style: const TextStyle(
-        fontSize: 15.0,
+    return ListTile(
+      dense: true,
+      leading: const Icon(
+        Icons.check_box_outline_blank,
+        size: 20.0,
       ),
-      decoration: const InputDecoration(
-        isDense: true,
-      ),
-      controller: TextEditingController(
-        text: widget.option.value,
+      title: TextField(
+        style: const TextStyle(
+          fontSize: 15.0,
+        ),
+        controller: TextEditingController(
+          text: widget.option.value,
+        ),
       ),
     );
   }

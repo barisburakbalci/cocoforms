@@ -37,10 +37,6 @@ class _FormEditPageState extends State<FormEditPage> {
           child: TextField(
             textAlign: TextAlign.center,
             controller: titleController,
-            decoration: const InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.all(5),
-            ),
           ),
         ),
       ),
