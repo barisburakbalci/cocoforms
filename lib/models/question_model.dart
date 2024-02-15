@@ -16,23 +16,23 @@ class QuestionModel {
     this.answers = const [],
   });
 
-  factory QuestionModel.fromMap(Map<String, dynamic> json) {
+  factory QuestionModel.fromMap(Map<String, dynamic> map) {
     List<OptionModel> options = [];
-    if (json['options'] != null) {
-      var optionMaps = json['options'] as List<dynamic>;
+    if (map['options'] != null) {
+      var optionMaps = map['options'] as List<dynamic>;
       options = optionMaps.map((e) => OptionModel.fromMap(e)).toList();
     }
 
     List<AnswerModel> answers = [];
-    if (json['answers'] != null) {
-      var answerMaps = json['answers'] as List<dynamic>;
+    if (map['answers'] != null) {
+      var answerMaps = map['answers'] as List<dynamic>;
       answers = answerMaps.map((e) => AnswerModel.fromMap(e)).toList();
     }
 
     return QuestionModel(
-      expression: json['expression'],
-      formId: json['formId'],
-      id: json['id'],
+      expression: map['expression'],
+      formId: map['formId'],
+      id: map['id'],
       options: options,
       answers: answers,
     );

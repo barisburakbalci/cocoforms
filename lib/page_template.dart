@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cocoforms/pages/answers_page.dart';
 import 'package:cocoforms/pages/customers_page.dart';
 import 'package:cocoforms/pages/forms_page.dart';
@@ -34,8 +32,12 @@ class _PageTemplateState extends State<PageTemplate> {
   }
 
   Future<bool> pingServer() async {
-    var response = await http.get(Uri.parse('${vars.baseUrl}Form'));
-    return response.body.isNotEmpty;
+    try {
+      var response = await http.get(Uri.parse('${vars.baseUrl}Form'));
+      return response.body.isNotEmpty;
+    } catch (e) {
+      return false;
+    }
   }
 
   @override

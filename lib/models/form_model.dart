@@ -11,16 +11,16 @@ class FormModel {
     this.questions = const [],
   });
 
-  factory FormModel.fromMap(Map<String, dynamic> json) {
+  factory FormModel.fromMap(Map<String, dynamic> map) {
     List<QuestionModel> questions = [];
-    if (json['questions'] != null) {
-      var questionMaps = json['questions'] as List<dynamic>;
+    if (map['questions'] != null) {
+      var questionMaps = map['questions'] as List<dynamic>;
       questions = questionMaps.map((e) => QuestionModel.fromMap(e)).toList();
     }
 
     return FormModel(
-      name: json['name'],
-      id: json['id'],
+      name: map['name'],
+      id: map['id'],
       questions: questions,
     );
   }

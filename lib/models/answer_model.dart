@@ -9,11 +9,11 @@ class AnswerModel {
     required this.optionId,
   });
 
-  factory AnswerModel.fromMap(Map<String, dynamic> json) {
+  factory AnswerModel.fromMap(Map<String, dynamic> map) {
     return AnswerModel(
-      questionId: json['questionId'],
-      id: json['id'],
-      optionId: json['optionId'],
+      questionId: map['questionId'],
+      id: map['id'],
+      optionId: map['optionId'],
     );
   }
 }
