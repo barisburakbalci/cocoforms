@@ -1,11 +1,11 @@
-import 'package:cocoforms/models/question_model.dart';
+import 'package:cocoforms/vm/editable_question_vm.dart';
 import 'package:cocoforms/widgets/editable_option.dart';
 import 'package:flutter/material.dart';
 
 class EditableQuestion extends StatefulWidget {
-  const EditableQuestion({super.key, required this.question});
+  const EditableQuestion({super.key, required this.questionVM});
 
-  final QuestionModel question;
+  final EditableQuestionVM questionVM;
 
   @override
   State<EditableQuestion> createState() => _EditableQuestionState();
@@ -23,15 +23,13 @@ class _EditableQuestionState extends State<EditableQuestion> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
-                controller: TextEditingController(
-                  text: widget.question.expression,
-                ),
+                controller: widget.questionVM.expressionController,
               ),
               Column(
-                children: widget.question.options
+                children: widget.questionVM.optionsVMs
                     .map(
-                      (option) => EditableOption(
-                        option: option,
+                      (optionVM) => EditableOption(
+                        optionVM: optionVM,
                       ),
                     )
                     .toList(),

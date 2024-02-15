@@ -1,7 +1,7 @@
 import 'package:cocoforms/models/form_model.dart';
-import 'package:cocoforms/models/question_model.dart';
 import 'package:cocoforms/providers/remote_data_provider.dart';
 import 'package:cocoforms/repositories/form_repository.dart';
+import 'package:cocoforms/vm/editable_question_vm.dart';
 import 'package:cocoforms/widgets/editable_question.dart';
 import 'package:flutter/material.dart';
 
@@ -18,13 +18,20 @@ class FormEditPage extends StatefulWidget {
 }
 
 class _FormEditPageState extends State<FormEditPage> {
-  final List<TextField> textFields = [];
-  final List<TextEditingController> controllers = [];
+  List<EditableQuestionVM> controllers = [];
 
-  Future<List<QuestionModel>> getQuestionsByFormId(int id) async {
+  Future<List<EditableQuestionVM>> getQuestionsByFormId(int id) async {
     var formRepository = FormRepository(RemoteDataProvider());
     var data = await formRepository.getFormWithQuestions(id);
-    return data.questions;
+    var questions = data.questions;
+    controllers = List.generate(questions.length, (index) {
+      return EditableQuestionVM(question: questions[index]);
+    });
+    return controllers;
+  }
+
+  Future<List<Map<String, String>>> saveForm() async {
+    return [];
   }
 
   @override
@@ -39,16 +46,22 @@ class _FormEditPageState extends State<FormEditPage> {
             controller: titleController,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: saveForm,
+            icon: const Icon(Icons.save),
+          )
+        ],
       ),
       body: FutureBuilder(
         future: getQuestionsByFormId(widget.form.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            var questions = snapshot.data as List<QuestionModel>;
+            var questions = snapshot.data as List<EditableQuestionVM>;
             return ListView.builder(
               itemCount: questions.length,
               itemBuilder: (context, index) {
-                return EditableQuestion(question: questions[index]);
+                return EditableQuestion(questionVM: questions[index]);
               },
             );
           } else {

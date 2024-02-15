@@ -1,10 +1,10 @@
-import 'package:cocoforms/models/option_model.dart';
+import 'package:cocoforms/vm/editable_option_vm.dart';
 import 'package:flutter/material.dart';
 
 class EditableOption extends StatefulWidget {
-  const EditableOption({super.key, required this.option});
+  const EditableOption({super.key, required this.optionVM});
 
-  final OptionModel option;
+  final EditableOptionVM optionVM;
 
   @override
   State<EditableOption> createState() => _EditableOptionState();
@@ -23,9 +23,7 @@ class _EditableOptionState extends State<EditableOption> {
         style: const TextStyle(
           fontSize: 15.0,
         ),
-        controller: TextEditingController(
-          text: widget.option.value,
-        ),
+        controller: widget.optionVM.optionController,
       ),
     );
   }
