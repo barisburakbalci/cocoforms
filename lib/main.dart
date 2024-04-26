@@ -2,7 +2,6 @@ import 'package:cocoforms/core/screens/login_screen.dart';
 import 'package:cocoforms/providers/folder_provider.dart';
 import 'package:cocoforms/providers/form_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:cocoforms/core/screens/forms_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:cocoforms/dependency_injection.dart';
 
