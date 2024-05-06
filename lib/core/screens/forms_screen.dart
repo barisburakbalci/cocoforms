@@ -34,12 +34,6 @@ class FormsScreen extends StatelessWidget {
                   },
                   child: const Text('Add Dummy Form'),
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    context.read<FormProvider>().getAll();
-                  },
-                  child: const Text('Get Forms'),
-                ),
               ],
             ),
           ],
