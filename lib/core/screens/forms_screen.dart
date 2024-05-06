@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cocoforms/core/widgets/user_info.dart';
 import 'package:cocoforms/data/models/form_model.dart';
 import 'package:cocoforms/providers/form_provider.dart';
 import 'package:cocoforms/core/widgets/forms_list.dart';
@@ -17,6 +18,7 @@ class FormsScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const UserInfo(),
             const Expanded(
               child: FormsList(),
             ),

@@ -1,3 +1,5 @@
+import 'package:cocoforms/core/logic/auth_service.dart';
+import 'package:cocoforms/providers/auth_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:cocoforms/data/database_service.dart';
 import 'package:cocoforms/data/repositories/folder_repository.dart';
@@ -18,4 +20,6 @@ Future<void> setupDependencies() async {
       FormProvider(getIt.get<FormRepository>()));
   getIt.registerSingleton<FolderProvider>(
       FolderProvider(getIt.get<FolderRepository>()));
+  getIt.registerSingleton<AuthProvider>(AuthProvider(GoogleCloudAuthService()));
+  getIt.registerSingleton<AuthService>(GoogleCloudAuthService());
 }

@@ -1,3 +1,4 @@
+import 'package:cocoforms/core/widgets/login_button.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -10,9 +11,9 @@ class LoginScreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         color: const Color.fromRGBO(44, 56, 77, 1),
-        child: Stack(
+        child: const Stack(
           children: [
-            const Positioned(
+            Positioned(
               top: -140,
               left: -100,
               child: RotatedBox(
@@ -23,7 +24,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               top: -140,
               right: -100,
               child: RotatedBox(
@@ -39,7 +40,7 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Stack(
+                Stack(
                   alignment: Alignment.center,
                   children: [
                     Image(
@@ -67,24 +68,11 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 25),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image(
-                        image: AssetImage('assets/google-icon.png'),
-                        width: 20,
-                      ),
-                      SizedBox(width: 10),
-                      Text('Google ile giriş yap'),
-                    ],
-                  ),
-                ),
+                SizedBox(height: 25),
+                LoginButton(),
               ],
             ),
-            const Positioned(
+            Positioned(
               bottom: -140,
               left: -100,
               child: RotatedBox(
@@ -95,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               bottom: -140,
               right: -100,
               child: RotatedBox(
