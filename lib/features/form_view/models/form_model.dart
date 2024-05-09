@@ -3,7 +3,7 @@ import 'package:cocoforms/data/models/folder_model.dart';
 class FormModel {
   int? id;
   final String name;
-  late List<FolderModel> folders = [];
+  late List<FolderModel> folders;
 
   FormModel({
     required this.name,

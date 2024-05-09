@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:cocoforms/core/widgets/user_info.dart';
-import 'package:cocoforms/data/models/form_model.dart';
+import 'package:cocoforms/features/auth/widgets/user_info.dart';
+import 'package:cocoforms/features/form_view/models/form_model.dart';
 import 'package:cocoforms/providers/form_provider.dart';
-import 'package:cocoforms/core/widgets/forms_list.dart';
+import 'package:cocoforms/features/form_view/widgets/forms_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

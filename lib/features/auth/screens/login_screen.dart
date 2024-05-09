@@ -1,4 +1,4 @@
-import 'package:cocoforms/core/widgets/login_button.dart';
+import 'package:cocoforms/features/auth/widgets/login_button.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {

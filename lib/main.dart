@@ -1,11 +1,11 @@
-import 'package:cocoforms/core/screens/forms_screen.dart';
-import 'package:cocoforms/core/screens/login_screen.dart';
-import 'package:cocoforms/core/services/auth_service.dart';
+import 'package:cocoforms/features/form_view/screens/forms_screen.dart';
+import 'package:cocoforms/features/auth/screens/login_screen.dart';
+import 'package:cocoforms/features/auth/services/auth_service.dart';
 import 'package:cocoforms/providers/folder_provider.dart';
 import 'package:cocoforms/providers/form_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cocoforms/dependency_injection.dart';
+import 'package:cocoforms/core/services/dependency_injection.dart';
 
 void main() {
   runApp(const Ticform());

@@ -1,6 +1,6 @@
-import 'package:cocoforms/core/services/auth_service.dart';
+import 'package:cocoforms/features/auth/services/auth_service.dart';
 import 'package:cocoforms/core/services/preference_service.dart';
-import 'package:cocoforms/dependency_injection.dart';
+import 'package:cocoforms/core/services/dependency_injection.dart';
 import 'package:flutter/material.dart';
 
 class UserInfo extends StatelessWidget {

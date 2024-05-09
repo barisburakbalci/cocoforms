@@ -1,4 +1,4 @@
-import 'package:cocoforms/core/models/auth_user_model.dart';
+import 'package:cocoforms/features/auth/models/auth_user_model.dart';
 import 'package:cocoforms/core/services/preference_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

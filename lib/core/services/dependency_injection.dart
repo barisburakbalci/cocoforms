@@ -1,4 +1,4 @@
-import 'package:cocoforms/core/services/auth_service.dart';
+import 'package:cocoforms/features/auth/services/auth_service.dart';
 import 'package:cocoforms/core/services/preference_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:cocoforms/data/database_service.dart';
