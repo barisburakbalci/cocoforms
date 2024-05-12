@@ -1,34 +1,39 @@
+import 'package:cocoforms/data/data_service.dart';
+import 'package:cocoforms/data/repositories/repository.dart';
 import 'package:cocoforms/features/form_view/models/form_model.dart';
-import 'package:sqflite/sqflite.dart';
 
-class FormRepository {
-  final Database _db;
-  final String tableName = 'forms';
+class FormRepository implements Repository<FormModel> {
+  final DataService _dataService;
+  @override
+  final String modelName = 'forms';
 
-  FormRepository(this._db);
+  FormRepository({required DataService dataService})
+      : _dataService = dataService;
 
-  Future<List<FormModel>> get() async {
-    final rawForms = await _db.query(tableName);
-    final forms = rawForms.map((e) => FormModel.fromMap(e)).toList();
-    return forms;
-  }
-
+  @override
   Future<bool> insert(FormModel form) async {
-    return await _db.insert(tableName, form.toMap()) > 0;
+    return await _dataService.insert(modelName, form.toMap());
   }
 
+  @override
   Future<bool> delete(FormModel form) async {
-    return await _db.delete(tableName, where: 'id = ?', whereArgs: [form.id]) >
-        0;
+    return await _dataService.delete(modelName, form.id ?? 0);
   }
 
+  @override
   Future<bool> update(FormModel form) async {
-    return await _db.update(tableName, form.toMap(),
-            where: 'id = ?', whereArgs: [form.id]) >
-        0;
+    return await _dataService.update(modelName, form.id!, form.toMap());
   }
 
-  Future<bool> deleteAll() async {
-    return await _db.delete(tableName) > 0;
+  @override
+  Future<List<FormModel>> getAll() async {
+    var formsAsMaps = await _dataService.getAll(modelName);
+    return formsAsMaps.map((e) => FormModel.fromMap(e)).toList();
+  }
+
+  @override
+  Future<FormModel> getOne(int id) async {
+    var formAsMap = await _dataService.find(modelName, id);
+    return FormModel.fromMap(formAsMap);
   }
 }

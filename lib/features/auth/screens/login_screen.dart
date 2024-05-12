@@ -94,6 +94,10 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Text(
+              '© 2024, Coco Yazılım',
+              style: TextStyle(color: Colors.white),
+            ),
           ],
         ),
       ),

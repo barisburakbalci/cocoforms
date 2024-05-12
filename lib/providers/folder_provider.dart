@@ -2,7 +2,7 @@ import 'package:cocoforms/data/models/folder_model.dart';
 import 'package:cocoforms/data/repositories/folder_repository.dart';
 import 'package:flutter/material.dart';
 
-class FolderProvider extends ChangeNotifier {
+class FolderChangeNotifier extends ChangeNotifier {
   final FolderRepository _folderRepository;
   bool initialized = false;
 
@@ -15,7 +15,7 @@ class FolderProvider extends ChangeNotifier {
     return _folders;
   }
 
-  FolderProvider(this._folderRepository);
+  FolderChangeNotifier(this._folderRepository);
 
   Future<void> getAll() async {
     _folders = await _folderRepository.get();

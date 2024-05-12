@@ -30,7 +30,7 @@ class FormsScreen extends StatelessWidget {
                     var dummyForm = FormModel(
                       name: 'Form ${Random().nextInt(100)}',
                     );
-                    context.read<FormProvider>().add(dummyForm);
+                    context.read<FormChangeNotifier>().add(dummyForm);
                   },
                   child: const Text('Add Dummy Form'),
                 ),

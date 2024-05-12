@@ -32,14 +32,17 @@ class GoogleCloudAuthService implements AuthService {
       scopes: ['email'],
     );
 
-    GoogleSignInAccount? user = await googleSignIn.signIn();
+    GoogleSignInAccount? userAccount = await googleSignIn.signIn();
 
-    if (user != null) {
-      _preferenceService.setString('user', user.displayName ?? user.email);
+    if (userAccount != null) {
+      _preferenceService.setString(
+        'user',
+        userAccount.displayName ?? userAccount.email,
+      );
       _user = AuthUserModel(
-        email: user.email,
-        displayName: user.displayName ?? '',
-        photoURL: user.photoUrl ?? '',
+        email: userAccount.email,
+        displayName: userAccount.displayName ?? '',
+        photoURL: userAccount.photoUrl ?? '',
       );
 
       return true;
@@ -50,7 +53,7 @@ class GoogleCloudAuthService implements AuthService {
 
   @override
   Future<bool> signOut() async {
-    if (_user == null) {
+    if (user.isEmpty) {
       return false;
     }
 

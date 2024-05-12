@@ -7,11 +7,12 @@ class FormsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FormProvider>(builder: (context, ref, child) {
+    return Consumer<FormChangeNotifier>(builder: (context, ref, child) {
+      var forms = ref.forms.reversed.toList();
       return ListView.builder(
-        itemCount: ref.forms.length,
+        itemCount: forms.length,
         itemBuilder: (context, index) {
-          final form = ref.forms[index];
+          final form = forms[index];
           return ListTile(
             title: Text(form.name),
           );
