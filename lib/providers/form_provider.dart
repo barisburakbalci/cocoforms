@@ -10,7 +10,8 @@ class FormChangeNotifier with ChangeNotifier {
     return _forms;
   }
 
-  FormChangeNotifier(this._formRepository) {
+  FormChangeNotifier({required FormRepository formRepository})
+      : _formRepository = formRepository {
     getAll();
   }
 

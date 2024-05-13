@@ -1,8 +1,10 @@
 import 'package:cocoforms/core/services/preference_service.dart';
 import 'package:cocoforms/data/data_service.dart';
+import 'package:cocoforms/data/database_service.dart';
 import 'package:cocoforms/data/repositories/form_repository.dart';
 import 'package:cocoforms/data/sqlite_data_service.dart';
 import 'package:cocoforms/features/auth/services/auth_service.dart';
+import 'package:cocoforms/features/auth/services/google_cloud_auth_service.dart';
 import 'package:cocoforms/providers/form_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,19 +16,28 @@ class GlobalProviders extends StatelessWidget {
 
   Future<MultiProvider> setupDependencies() async {
     final sharedPreferencesInstance = await SharedPreferences.getInstance();
+    final dataBase = await SqliteDatabaseService().database;
 
     return MultiProvider(
       providers: [
         Provider<PreferenceService>(
-          create: (_) => PreferenceService(sharedPreferencesInstance),
+          create: (_) => PreferenceService(
+            preferences: sharedPreferencesInstance,
+          ),
         ),
         Consumer<PreferenceService>(
           builder: (_, preferenceService, child) => Provider<AuthService>(
-            create: (_) => GoogleCloudAuthService(preferenceService),
+            create: (_) => GoogleCloudAuthService(
+              preferenceService: preferenceService,
+            ),
             child: child,
           ),
         ),
-        Provider<DataService>(create: (_) => SqliteDataService()),
+        Provider<DataService>(
+          create: (_) => SqliteDataService(
+            database: dataBase,
+          ),
+        ),
         Consumer<DataService>(
           builder: (_, dataService, child) => MultiProvider(
             providers: [
@@ -38,7 +49,9 @@ class GlobalProviders extends StatelessWidget {
               Consumer<FormRepository>(
                 builder: (_, formRepository, child) =>
                     ChangeNotifierProvider<FormChangeNotifier>(
-                  create: (_) => FormChangeNotifier(formRepository),
+                  create: (_) => FormChangeNotifier(
+                    formRepository: formRepository,
+                  ),
                   child: child,
                 ),
               )
