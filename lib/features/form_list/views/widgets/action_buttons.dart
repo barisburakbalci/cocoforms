@@ -1,3 +1,4 @@
+import 'package:cocoforms/features/form_detail/views/form_detail_screen.dart';
 import 'package:cocoforms/features/form_list/data/models/form_model.dart';
 import 'package:cocoforms/features/form_list/views/widgets/action_button.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,14 @@ class FormActionButtons extends StatelessWidget {
         ActionButton(
           icon: Icons.edit,
           onPressed: () {
-            // TODO: create form edit screen
-            Navigator.of(context).pushNamed('/form_edit', arguments: form);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FormDetailScreen(
+                  form: form,
+                ),
+              ),
+            );
           },
         ),
         ActionButton(

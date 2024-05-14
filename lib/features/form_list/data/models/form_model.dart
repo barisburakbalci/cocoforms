@@ -6,11 +6,13 @@ class FormModel {
   late List<FolderModel> folders;
 
   FormModel({
+    this.id,
     required this.name,
   });
 
   factory FormModel.fromMap(Map<String, dynamic> map) {
     return FormModel(
+      id: map['id'],
       name: map['name'],
     );
   }

@@ -21,7 +21,7 @@ class FormCard extends StatelessWidget {
           children: [
             Text(
               form.name,
-              style: Theme.of(context).textTheme.displaySmall,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             FormActionButtons(form: form),
           ],
