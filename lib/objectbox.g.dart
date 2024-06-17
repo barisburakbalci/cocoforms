@@ -23,7 +23,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 4251288855670247676),
       name: 'FormModel',
-      lastPropertyId: const obx_int.IdUid(3, 8642526492060799049),
+      lastPropertyId: const obx_int.IdUid(5, 3174131817905918099),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -42,7 +42,17 @@ final _entities = <obx_int.ModelEntity>[
             type: 11,
             flags: 520,
             indexId: const obx_int.IdUid(1, 2543801620796201057),
-            relationTarget: 'FolderModel')
+            relationTarget: 'FolderModel'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 1738972667126071189),
+            name: 'createdDate',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 3174131817905918099),
+            name: 'modifiedDate',
+            type: 10,
+            flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
@@ -128,20 +138,29 @@ obx_int.ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (FormModel object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(4);
+          fbb.startTable(6);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addInt64(2, object.folder.targetId);
+          fbb.addInt64(3, object.createdDate.millisecondsSinceEpoch);
+          fbb.addInt64(4, object.modifiedDate?.millisecondsSinceEpoch);
           fbb.finish(fbb.endTable());
           return object.id;
         },
         objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
+          final modifiedDateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 12);
           final nameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
           final object = FormModel(name: nameParam)
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
+            ..createdDate = DateTime.fromMillisecondsSinceEpoch(
+                const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0))
+            ..modifiedDate = modifiedDateValue == null
+                ? null
+                : DateTime.fromMillisecondsSinceEpoch(modifiedDateValue);
           object.folder.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
           object.folder.attach(store);
@@ -199,6 +218,14 @@ class FormModel_ {
   /// See [FormModel.folder].
   static final folder = obx.QueryRelationToOne<FormModel, FolderModel>(
       _entities[0].properties[2]);
+
+  /// See [FormModel.createdDate].
+  static final createdDate =
+      obx.QueryDateProperty<FormModel>(_entities[0].properties[3]);
+
+  /// See [FormModel.modifiedDate].
+  static final modifiedDate =
+      obx.QueryDateProperty<FormModel>(_entities[0].properties[4]);
 }
 
 /// [FolderModel] entity fields to define ObjectBox queries.

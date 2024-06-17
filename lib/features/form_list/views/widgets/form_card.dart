@@ -19,9 +19,17 @@ class FormCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              form.name,
-              style: Theme.of(context).textTheme.headlineMedium,
+            Column(
+              children: [
+                Text(
+                  form.name,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                Text(
+                  form.modifiedDate?.toIso8601String() ??
+                      form.createdDate.toIso8601String(),
+                ),
+              ],
             ),
             FormActionButtons(form: form),
           ],

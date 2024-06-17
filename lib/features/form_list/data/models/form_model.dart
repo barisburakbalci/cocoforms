@@ -8,6 +8,9 @@ class FormModel {
 
   String name;
 
+  DateTime createdDate = DateTime.now();
+  DateTime? modifiedDate;
+
   FormModel({required this.name});
 
   final folder = ToOne<FolderModel>();

@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:4251288855670247676",
-      "lastPropertyId": "3:8642526492060799049",
+      "lastPropertyId": "5:3174131817905918099",
       "name": "FormModel",
       "properties": [
         {
@@ -26,6 +26,16 @@
           "flags": 520,
           "indexId": "1:2543801620796201057",
           "relationTarget": "FolderModel"
+        },
+        {
+          "id": "4:1738972667126071189",
+          "name": "createdDate",
+          "type": 10
+        },
+        {
+          "id": "5:3174131817905918099",
+          "name": "modifiedDate",
+          "type": 10
         }
       ],
       "relations": []

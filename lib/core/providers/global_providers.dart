@@ -16,7 +16,8 @@ class GlobalProviders extends StatelessWidget {
 
   Future<MultiProvider> setupDependencies() async {
     final sharedPreferencesInstance = await SharedPreferences.getInstance();
-    final store = (await ObjectBox.create()).store;
+    await ObjectBox.create();
+    final store = ObjectBox.store!;
 
     return MultiProvider(
       providers: [
@@ -74,14 +75,7 @@ class GlobalProviders extends StatelessWidget {
             return const MaterialApp(
               home: Scaffold(
                 body: Center(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        CircularProgressIndicator(),
-                        Text('Uygulama yüklenemedi!'),
-                      ],
-                    ),
-                  ),
+                  child: Text('Uygulama yüklenemedi!'),
                 ),
               ),
             );
