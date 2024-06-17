@@ -27,7 +27,7 @@ class FormChangeNotifier with ChangeNotifier {
   }
 
   Future<void> delete(FormModel form) async {
-    await _formRepository.delete(form);
+    await _formRepository.delete(form.id);
     await getAll();
     notifyListeners();
   }

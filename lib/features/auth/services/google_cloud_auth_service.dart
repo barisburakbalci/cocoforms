@@ -8,7 +8,16 @@ class GoogleCloudAuthService implements AuthService {
   final PreferenceService _preferenceService;
 
   @override
-  String get user => _preferenceService.getString('user');
+  AuthUserModel? get user {
+    if (_preferenceService.getString('user') != '') {
+      return AuthUserModel(
+        email: _preferenceService.getString('email'),
+        displayName: _preferenceService.getString('user'),
+        photoURL: _preferenceService.getString('userPhotoURL'),
+      );
+    }
+    return _user;
+  }
 
   GoogleCloudAuthService({required PreferenceService preferenceService})
       : _preferenceService = preferenceService;
@@ -30,9 +39,14 @@ class GoogleCloudAuthService implements AuthService {
     GoogleSignInAccount? userAccount = await googleSignIn.signIn();
 
     if (userAccount != null) {
+      _preferenceService.setString('email', userAccount.email);
       _preferenceService.setString(
         'user',
         userAccount.displayName ?? userAccount.email,
+      );
+      _preferenceService.setString(
+        'userPhotoURL',
+        userAccount.photoUrl ?? '',
       );
       _user = AuthUserModel(
         email: userAccount.email,
@@ -48,7 +62,7 @@ class GoogleCloudAuthService implements AuthService {
 
   @override
   Future<bool> signOut() async {
-    if (user.isEmpty) {
+    if (user == null) {
       return false;
     }
 

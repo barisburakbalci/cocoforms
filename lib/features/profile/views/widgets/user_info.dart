@@ -1,5 +1,4 @@
 import 'package:cocoforms/features/auth/services/auth_service.dart';
-import 'package:cocoforms/core/services/preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,14 +7,15 @@ class UserInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var preferences = Provider.of<PreferenceService>(context, listen: false);
-    var userName = preferences.getString('user');
+    var user = Provider.of<AuthService>(context, listen: false).user;
 
-    if (userName.isNotEmpty) {
-      return Row(
+    if (user != null) {
+      return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(userName),
+          Image.network(user.photoURL),
+          Text(user.displayName),
+          Text(user.email),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {

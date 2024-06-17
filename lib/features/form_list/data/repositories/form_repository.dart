@@ -1,39 +1,43 @@
-import 'package:cocoforms/core/data/data_service.dart';
 import 'package:cocoforms/core/data/repositories/repository.dart';
 import 'package:cocoforms/features/form_list/data/models/form_model.dart';
+import 'package:cocoforms/objectbox.g.dart';
 
 class FormRepository implements Repository<FormModel> {
-  final DataService _dataService;
-  @override
-  final String modelName = 'forms';
+  final Store _db;
+  late final Box<FormModel> _formBox;
 
-  FormRepository({required DataService dataService})
-      : _dataService = dataService;
-
-  @override
-  Future<bool> insert(FormModel form) async {
-    return await _dataService.insert(modelName, form.toMap());
+  FormRepository(this._db) {
+    _formBox = _db.box<FormModel>();
   }
 
   @override
-  Future<bool> delete(FormModel form) async {
-    return await _dataService.delete(modelName, form.id ?? 0);
-  }
-
-  @override
-  Future<bool> update(FormModel form) async {
-    return await _dataService.update(modelName, form.id!, form.toMap());
+  Future<FormModel?> getOne(int id) async {
+    return _formBox.get(id);
   }
 
   @override
   Future<List<FormModel>> getAll() async {
-    var formsAsMaps = await _dataService.getAll(modelName);
-    return formsAsMaps.map((e) => FormModel.fromMap(e)).toList();
+    List<FormModel> folders = _formBox.getAll();
+    return folders;
   }
 
   @override
-  Future<FormModel> getOne(int id) async {
-    var formAsMap = await _dataService.find(modelName, id);
-    return FormModel.fromMap(formAsMap);
+  Future<bool> insert(FormModel folder) async {
+    return _formBox.put(folder) > 0;
+  }
+
+  @override
+  Future<bool> delete(int id) async {
+    return _formBox.remove(id);
+  }
+
+  @override
+  Future<bool> update(FormModel folder) async {
+    return _formBox.put(folder) > 0;
+  }
+
+  @override
+  Future<bool> deleteAll() async {
+    return _formBox.removeAll() > 0;
   }
 }

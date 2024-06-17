@@ -1,26 +1,14 @@
 import 'package:cocoforms/features/folder_detail/data/models/folder_model.dart';
+import 'package:objectbox/objectbox.dart';
 
+@Entity()
 class FormModel {
-  int? id;
-  final String name;
-  late List<FolderModel> folders;
+  @Id()
+  int id = 0;
 
-  FormModel({
-    this.id,
-    required this.name,
-  });
+  String name;
 
-  factory FormModel.fromMap(Map<String, dynamic> map) {
-    return FormModel(
-      id: map['id'],
-      name: map['name'],
-    );
-  }
+  FormModel({required this.name});
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-    };
-  }
+  final folder = ToOne<FolderModel>();
 }

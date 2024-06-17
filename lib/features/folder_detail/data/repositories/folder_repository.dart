@@ -1,35 +1,43 @@
+import 'package:cocoforms/core/data/repositories/repository.dart';
 import 'package:cocoforms/features/folder_detail/data/models/folder_model.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:cocoforms/objectbox.g.dart';
 
-class FolderRepository {
-  final Database _db;
-  final String tableName = 'folders';
+class FolderRepository implements Repository<FolderModel> {
+  final Store _db;
+  late final Box<FolderModel> _folderBox;
 
-  FolderRepository(this._db);
+  FolderRepository(this._db) {
+    _folderBox = _db.box<FolderModel>();
+  }
 
-  Future<List<FolderModel>> get() async {
-    final rawFolders = await _db.query(tableName);
-    final folders = rawFolders.map((e) => FolderModel.fromMap(e)).toList();
+  @override
+  Future<FolderModel?> getOne(int id) async {
+    return _folderBox.get(id);
+  }
+
+  @override
+  Future<List<FolderModel>> getAll() async {
+    List<FolderModel> folders = _folderBox.getAll();
     return folders;
   }
 
+  @override
   Future<bool> insert(FolderModel folder) async {
-    return await _db.insert(tableName, folder.toMap()) > 0;
+    return _folderBox.put(folder) > 0;
   }
 
-  Future<bool> delete(FolderModel folder) async {
-    return await _db
-            .delete(tableName, where: 'id = ?', whereArgs: [folder.id]) >
-        0;
+  @override
+  Future<bool> delete(int id) async {
+    return _folderBox.remove(id);
   }
 
+  @override
   Future<bool> update(FolderModel folder) async {
-    return await _db.update(tableName, folder.toMap(),
-            where: 'id = ?', whereArgs: [folder.id]) >
-        0;
+    return _folderBox.put(folder) > 0;
   }
 
+  @override
   Future<bool> deleteAll() async {
-    return await _db.delete(tableName) > 0;
+    return _folderBox.removeAll() > 0;
   }
 }

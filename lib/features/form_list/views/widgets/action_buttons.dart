@@ -1,7 +1,9 @@
 import 'package:cocoforms/features/form_detail/views/form_detail_screen.dart';
 import 'package:cocoforms/features/form_list/data/models/form_model.dart';
+import 'package:cocoforms/features/form_list/providers/form_provider.dart';
 import 'package:cocoforms/features/form_list/views/widgets/action_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FormActionButtons extends StatelessWidget {
   const FormActionButtons({
@@ -35,7 +37,15 @@ class FormActionButtons extends StatelessWidget {
         ),
         ActionButton(
           icon: Icons.delete,
-          onPressed: () {},
+          onPressed: () {
+            if (form.id != 0) {
+              var formProvider = Provider.of<FormChangeNotifier>(
+                context,
+                listen: false,
+              );
+              formProvider.delete(form);
+            }
+          },
         ),
       ],
     );

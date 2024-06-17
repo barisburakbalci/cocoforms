@@ -19,7 +19,7 @@ class Ticform extends StatelessWidget {
       child: Consumer<AuthService>(
         builder: (_, authService, __) {
           String initialRoute = '/login';
-          if (authService.user.isNotEmpty) {
+          if (authService.user != null) {
             initialRoute = '/app';
           }
           return MaterialApp(

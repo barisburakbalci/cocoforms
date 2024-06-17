@@ -15,10 +15,13 @@ class FolderChangeNotifier extends ChangeNotifier {
     return _folders;
   }
 
-  FolderChangeNotifier(this._folderRepository);
+  FolderChangeNotifier({required FolderRepository folderRepository})
+      : _folderRepository = folderRepository {
+    getAll();
+  }
 
   Future<void> getAll() async {
-    _folders = await _folderRepository.get();
+    _folders = await _folderRepository.getAll();
     notifyListeners();
   }
 
@@ -28,7 +31,7 @@ class FolderChangeNotifier extends ChangeNotifier {
   }
 
   Future<void> delete(FolderModel form) async {
-    await _folderRepository.delete(form);
+    await _folderRepository.delete(form.id);
     notifyListeners();
   }
 

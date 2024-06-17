@@ -1,8 +1,8 @@
+import 'package:cocoforms/core/data/objectbox.dart';
 import 'package:cocoforms/core/services/preference_service.dart';
-import 'package:cocoforms/core/data/data_service.dart';
-import 'package:cocoforms/core/data/database_service.dart';
+import 'package:cocoforms/features/folder_detail/data/repositories/folder_repository.dart';
+import 'package:cocoforms/features/folder_detail/providers/folder_provider.dart';
 import 'package:cocoforms/features/form_list/data/repositories/form_repository.dart';
-import 'package:cocoforms/core/data/sqlite_data_service.dart';
 import 'package:cocoforms/features/auth/services/auth_service.dart';
 import 'package:cocoforms/features/auth/services/google_cloud_auth_service.dart';
 import 'package:cocoforms/features/form_list/providers/form_provider.dart';
@@ -16,7 +16,7 @@ class GlobalProviders extends StatelessWidget {
 
   Future<MultiProvider> setupDependencies() async {
     final sharedPreferencesInstance = await SharedPreferences.getInstance();
-    final dataBase = await SqliteDatabaseService().database;
+    final store = (await ObjectBox.create()).store;
 
     return MultiProvider(
       providers: [
@@ -33,30 +33,27 @@ class GlobalProviders extends StatelessWidget {
             child: child,
           ),
         ),
-        Provider<DataService>(
-          create: (_) => SqliteDataService(
-            database: dataBase,
+        Provider<FormRepository>(
+          create: (_) => FormRepository(store),
+        ),
+        Consumer<FormRepository>(
+          builder: (_, formRepository, child) =>
+              ChangeNotifierProvider<FormChangeNotifier>(
+            create: (_) => FormChangeNotifier(
+              formRepository: formRepository,
+            ),
+            child: child,
           ),
         ),
-        Consumer<DataService>(
-          builder: (_, dataService, child) => MultiProvider(
-            providers: [
-              Provider<FormRepository>(
-                create: (_) => FormRepository(
-                  dataService: dataService,
-                ),
-              ),
-              Consumer<FormRepository>(
-                builder: (_, formRepository, child) =>
-                    ChangeNotifierProvider<FormChangeNotifier>(
-                  create: (_) => FormChangeNotifier(
-                    formRepository: formRepository,
-                  ),
-                  child: child,
-                ),
-              )
-              // TODO: add folder rpository
-            ],
+        Provider<FolderRepository>(
+          create: (_) => FolderRepository(store),
+        ),
+        Consumer<FolderRepository>(
+          builder: (_, folderRepository, child) =>
+              ChangeNotifierProvider<FolderChangeNotifier>(
+            create: (_) => FolderChangeNotifier(
+              folderRepository: folderRepository,
+            ),
             child: child,
           ),
         ),

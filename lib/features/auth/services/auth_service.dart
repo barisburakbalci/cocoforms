@@ -4,5 +4,5 @@ abstract class AuthService {
   Future<bool> signIn();
   Future<bool> signOut();
   Future<AuthUserModel> getUser();
-  String get user;
+  AuthUserModel? get user;
 }

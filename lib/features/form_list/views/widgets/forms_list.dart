@@ -10,6 +10,11 @@ class FormsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<FormChangeNotifier>(builder: (context, ref, child) {
       var forms = ref.forms.reversed.toList();
+      if (forms.isEmpty) {
+        return const Center(
+          child: Text('Henüz kayıtlı formunuz yok'),
+        );
+      }
       return ListView.builder(
         itemCount: forms.length,
         itemBuilder: (context, index) {

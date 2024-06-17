@@ -17,7 +17,7 @@ ThemeData theme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: MaterialStateProperty.all(Colors.blue.shade900),
+      foregroundColor: WidgetStateProperty.all(Colors.blue.shade900),
     ),
   ),
   listTileTheme: ListTileThemeData(
