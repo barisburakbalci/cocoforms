@@ -1,4 +1,6 @@
+import 'package:cocoforms/core/classes/formatted_date.dart';
 import 'package:cocoforms/features/folder_detail/data/models/folder_model.dart';
+import 'package:cocoforms/features/form_detail/data/models/question_model.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -8,10 +10,13 @@ class FormModel {
 
   String name;
 
-  DateTime createdDate = DateTime.now();
-  DateTime? modifiedDate;
+  FormattedDate createdDate = FormattedDate(DateTime.now());
+  FormattedDate? modifiedDate;
 
   FormModel({required this.name});
 
   final folder = ToOne<FolderModel>();
+
+  @Backlink('form')
+  final questions = ToMany<QuestionModel>();
 }

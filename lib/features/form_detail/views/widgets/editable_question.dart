@@ -2,16 +2,11 @@ import 'package:cocoforms/features/form_detail/data/models/question_model.dart';
 import 'package:cocoforms/features/form_detail/views/widgets/editable_option.dart';
 import 'package:flutter/material.dart';
 
-class EditableQuestion extends StatefulWidget {
+class EditableQuestion extends StatelessWidget {
   const EditableQuestion({super.key, required this.questionVM});
 
   final QuestionModel questionVM;
 
-  @override
-  State<EditableQuestion> createState() => _EditableQuestionState();
-}
-
-class _EditableQuestionState extends State<EditableQuestion> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,9 +17,13 @@ class _EditableQuestionState extends State<EditableQuestion> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TextField(),
+              TextField(
+                controller: TextEditingController(
+                  text: questionVM.expression,
+                ),
+              ),
               Column(
-                children: widget.questionVM.options
+                children: questionVM.options
                     .map(
                       (optionVM) => EditableOption(
                         optionVM: optionVM,

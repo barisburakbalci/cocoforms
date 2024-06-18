@@ -17,13 +17,13 @@ class FormRepository implements Repository<FormModel> {
 
   @override
   Future<List<FormModel>> getAll() async {
-    List<FormModel> folders = _formBox.getAll();
-    return folders;
+    List<FormModel> forms = _formBox.getAll();
+    return forms;
   }
 
   @override
-  Future<bool> insert(FormModel folder) async {
-    return _formBox.put(folder) > 0;
+  Future<bool> insert(FormModel form) async {
+    return _formBox.put(form) > 0;
   }
 
   @override
@@ -32,8 +32,8 @@ class FormRepository implements Repository<FormModel> {
   }
 
   @override
-  Future<bool> update(FormModel folder) async {
-    return _formBox.put(folder) > 0;
+  Future<bool> update(FormModel form) async {
+    return _formBox.put(form) > 0;
   }
 
   @override

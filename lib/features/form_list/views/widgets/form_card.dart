@@ -1,3 +1,4 @@
+import 'package:cocoforms/features/form_detail/views/form_detail_screen.dart';
 import 'package:cocoforms/features/form_list/data/models/form_model.dart';
 import 'package:cocoforms/features/form_list/views/widgets/action_buttons.dart';
 import 'package:flutter/material.dart';
@@ -13,26 +14,28 @@ class FormCard extends StatelessWidget {
       surfaceTintColor: Colors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 15.0,
-          vertical: 25,
+          horizontal: 5.0,
+          vertical: 15,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                Text(
-                  form.name,
-                  style: Theme.of(context).textTheme.headlineMedium,
+        child: ListTile(
+          title: Text(
+            form.name,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          subtitle: Text(
+            '${form.modifiedDate ?? form.createdDate}',
+          ),
+          trailing: FormActionButtons(form: form),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FormDetailScreen(
+                  form: form,
                 ),
-                Text(
-                  form.modifiedDate?.toIso8601String() ??
-                      form.createdDate.toIso8601String(),
-                ),
-              ],
-            ),
-            FormActionButtons(form: form),
-          ],
+              ),
+            );
+          },
         ),
       ),
     );

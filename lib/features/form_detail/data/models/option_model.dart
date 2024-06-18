@@ -1,19 +1,17 @@
+import 'package:cocoforms/features/form_detail/data/models/question_model.dart';
+import 'package:objectbox/objectbox.dart';
+
+@Entity()
 class OptionModel {
-  final int id;
-  final String value;
-  final int questionId;
+  @Id()
+  int id;
+
+  String value;
+
+  final question = ToOne<QuestionModel>();
 
   OptionModel({
     required this.id,
     required this.value,
-    required this.questionId,
   });
-
-  factory OptionModel.fromMap(Map<String, dynamic> map) {
-    return OptionModel(
-      questionId: map['questionId'],
-      value: map['value'],
-      id: map['id'],
-    );
-  }
 }

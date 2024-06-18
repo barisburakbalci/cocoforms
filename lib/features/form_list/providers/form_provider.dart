@@ -1,3 +1,4 @@
+import 'package:cocoforms/features/form_detail/data/models/question_model.dart';
 import 'package:cocoforms/features/form_list/data/models/form_model.dart';
 import 'package:cocoforms/features/form_list/data/repositories/form_repository.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,13 @@ class FormChangeNotifier with ChangeNotifier {
 
   Future<void> update(FormModel form) async {
     await _formRepository.update(form);
+    await getAll();
+    notifyListeners();
+  }
+
+  Future<void> addQuestion(FormModel form, QuestionModel question) async {
+    form.questions.add(question);
+    await _formRepository.insert(form);
     await getAll();
     notifyListeners();
   }
