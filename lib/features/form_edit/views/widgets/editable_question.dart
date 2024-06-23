@@ -1,5 +1,6 @@
-import 'package:cocoforms/features/form_detail/data/models/question_model.dart';
-import 'package:cocoforms/features/form_detail/views/widgets/editable_option.dart';
+import 'package:cocoforms/features/form_edit/data/models/option_model.dart';
+import 'package:cocoforms/features/form_edit/data/models/question_model.dart';
+import 'package:cocoforms/features/form_edit/views/widgets/editable_option.dart';
 import 'package:flutter/material.dart';
 
 class EditableQuestion extends StatelessWidget {
@@ -32,7 +33,12 @@ class EditableQuestion extends StatelessWidget {
                     .toList(),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  var option = OptionModel(
+                    id: 0,
+                    value: 'Seçenek',
+                  );
+                },
                 child: const Text('Seçenek ekle'),
               ),
             ],

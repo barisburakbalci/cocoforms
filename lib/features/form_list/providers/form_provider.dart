@@ -1,4 +1,4 @@
-import 'package:cocoforms/features/form_detail/data/models/question_model.dart';
+import 'package:cocoforms/features/form_edit/data/models/question_model.dart';
 import 'package:cocoforms/features/form_list/data/models/form_model.dart';
 import 'package:cocoforms/features/form_list/data/repositories/form_repository.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
-import 'package:cocoforms/features/form_detail/data/models/question_model.dart';
-import 'package:cocoforms/features/form_detail/views/widgets/editable_question.dart';
+import 'package:cocoforms/features/form_edit/data/models/question_model.dart';
+import 'package:cocoforms/features/form_edit/views/widgets/editable_question.dart';
 import 'package:cocoforms/features/form_list/data/models/form_model.dart';
 import 'package:cocoforms/features/form_list/providers/form_provider.dart';
 import 'package:flutter/material.dart';

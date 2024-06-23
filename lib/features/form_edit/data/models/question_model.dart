@@ -1,4 +1,4 @@
-import 'package:cocoforms/features/form_detail/data/models/option_model.dart';
+import 'package:cocoforms/features/form_edit/data/models/option_model.dart';
 import 'package:cocoforms/features/form_list/data/models/form_model.dart';
 import 'package:objectbox/objectbox.dart';
 

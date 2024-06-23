@@ -1,4 +1,4 @@
-import 'package:cocoforms/features/form_detail/views/form_detail_screen.dart';
+import 'package:cocoforms/features/form_edit/views/form_detail_screen.dart';
 import 'package:cocoforms/features/form_list/data/models/form_model.dart';
 import 'package:cocoforms/features/form_list/views/widgets/action_buttons.dart';
 import 'package:flutter/material.dart';

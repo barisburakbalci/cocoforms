@@ -15,8 +15,8 @@ import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'features/folder_detail/data/models/folder_model.dart';
-import 'features/form_detail/data/models/option_model.dart';
-import 'features/form_detail/data/models/question_model.dart';
+import 'features/form_edit/data/models/option_model.dart';
+import 'features/form_edit/data/models/question_model.dart';
 import 'features/form_list/data/models/form_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file

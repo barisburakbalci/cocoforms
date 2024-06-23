@@ -1,4 +1,4 @@
-import 'package:cocoforms/features/form_detail/data/models/question_model.dart';
+import 'package:cocoforms/features/form_edit/data/models/question_model.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()

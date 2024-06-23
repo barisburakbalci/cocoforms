@@ -1,4 +1,4 @@
-import 'package:cocoforms/features/form_detail/data/models/option_model.dart';
+import 'package:cocoforms/features/form_edit/data/models/option_model.dart';
 import 'package:flutter/material.dart';
 
 class EditableOption extends StatelessWidget {
