@@ -13,11 +13,6 @@ class FormDetailScreen extends StatelessWidget {
 
   final FormModel form;
 
-  // TODO: implement save
-  Future<List<Map<String, String>>> saveForm() async {
-    return [];
-  }
-
   @override
   Widget build(BuildContext context) {
     var titleController = TextEditingController(text: form.name);
@@ -33,7 +28,9 @@ class FormDetailScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: saveForm,
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: const Icon(Icons.save),
           )
         ],
@@ -49,7 +46,7 @@ class FormDetailScreen extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: questions.length,
                   itemBuilder: (context, index) {
-                    return EditableQuestion(questionVM: questions[index]);
+                    return EditableQuestion(question: questions[index]);
                   },
                 ),
               ),
