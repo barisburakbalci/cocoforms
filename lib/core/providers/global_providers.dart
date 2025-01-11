@@ -2,6 +2,8 @@ import 'package:cocoforms/core/data/objectbox.dart';
 import 'package:cocoforms/core/services/preference_service.dart';
 import 'package:cocoforms/features/folder_detail/data/repositories/folder_repository.dart';
 import 'package:cocoforms/features/folder_detail/providers/folder_provider.dart';
+import 'package:cocoforms/features/form_edit/data/repositories/question_repository.dart';
+import 'package:cocoforms/features/form_edit/providers/question_provider.dart';
 import 'package:cocoforms/features/form_list/data/repositories/form_repository.dart';
 import 'package:cocoforms/features/auth/services/auth_service.dart';
 import 'package:cocoforms/features/auth/services/google_cloud_auth_service.dart';
@@ -58,6 +60,18 @@ class GlobalProviders extends StatelessWidget {
             child: child,
           ),
         ),
+        Provider<QuestionRepository>(
+          create: (_) => QuestionRepository(store),
+        ),
+        Consumer<QuestionRepository>(
+          builder: (_, questionRepository, child) =>
+              ChangeNotifierProvider<QuestionChangeNotifier>(
+            create: (_) => QuestionChangeNotifier(
+              questionRepository: questionRepository,
+            ),
+            child: child,
+          ),
+        )
       ],
       child: _child,
     );

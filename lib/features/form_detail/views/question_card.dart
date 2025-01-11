@@ -20,21 +20,15 @@ class EditableQuestion extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                controller: TextEditingController(
-                  text: question.expression,
-                ),
-              ),
-              Consumer<QuestionChangeNotifier>(
-                builder: (_, ref, child) => Column(
-                  children: question.options
-                      .map(
-                        (optionVM) => EditableOption(
-                          optionVM: optionVM,
-                        ),
-                      )
-                      .toList(),
-                ),
+              Text(question.expression),
+              Column(
+                children: question.options
+                    .map(
+                      (optionVM) => EditableOption(
+                        optionVM: optionVM,
+                      ),
+                    )
+                    .toList(),
               ),
               TextButton(
                 onPressed: () {

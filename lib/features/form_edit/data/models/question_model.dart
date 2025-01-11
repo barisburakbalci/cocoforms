@@ -10,7 +10,7 @@ class QuestionModel {
   String expression;
 
   @Backlink('question')
-  final List<OptionModel> options;
+  final options = ToMany<OptionModel>();
 
   //@Backlink('question')
   //final List<AnswerModel> answers;
@@ -20,7 +20,6 @@ class QuestionModel {
   QuestionModel({
     required this.expression,
     required this.id,
-    this.options = const [],
     //this.answers = const [],
   });
 }

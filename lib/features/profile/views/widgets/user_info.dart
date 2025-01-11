@@ -13,7 +13,11 @@ class UserInfo extends StatelessWidget {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.network(user.photoURL),
+          CircleAvatar(
+            backgroundColor: Colors.amber,
+            backgroundImage: NetworkImage(user.photoURL),
+            radius: 50.0,
+          ),
           Text(user.displayName),
           Text(user.email),
           IconButton(
