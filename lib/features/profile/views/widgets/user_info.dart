@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cocoforms/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,10 +14,15 @@ class UserInfo extends StatelessWidget {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleAvatar(
-            backgroundColor: Colors.amber,
-            backgroundImage: NetworkImage(user.photoURL),
-            radius: 50.0,
+          CachedNetworkImage(
+            imageUrl: user.photoURL,
+            imageBuilder: (context, imageProvider) => CircleAvatar(
+              backgroundColor: Colors.amber,
+              backgroundImage: imageProvider,
+              radius: 50.0,
+            ),
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
           Text(user.displayName),
           Text(user.email),

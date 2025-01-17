@@ -1,13 +1,17 @@
 import 'package:cocoforms/core/data/objectbox.dart';
 import 'package:cocoforms/core/services/preference_service.dart';
-import 'package:cocoforms/features/folder_detail/data/repositories/folder_repository.dart';
-import 'package:cocoforms/features/folder_detail/providers/folder_provider.dart';
-import 'package:cocoforms/features/form_edit/data/repositories/question_repository.dart';
-import 'package:cocoforms/features/form_edit/providers/question_provider.dart';
-import 'package:cocoforms/features/form_list/data/repositories/form_repository.dart';
+import 'package:cocoforms/features/folder/data/repositories/folder_repository.dart';
+import 'package:cocoforms/features/folder/providers/folder_provider.dart';
+import 'package:cocoforms/features/form/data/repositories/answer_repository.dart';
+import 'package:cocoforms/features/form/data/repositories/option_repository.dart';
+import 'package:cocoforms/features/form/data/repositories/question_repository.dart';
+import 'package:cocoforms/features/form/providers/answer_provider.dart';
+import 'package:cocoforms/features/form/providers/option_provider.dart';
+import 'package:cocoforms/features/form/providers/question_provider.dart';
+import 'package:cocoforms/features/form/data/repositories/form_repository.dart';
 import 'package:cocoforms/features/auth/services/auth_service.dart';
 import 'package:cocoforms/features/auth/services/google_cloud_auth_service.dart';
-import 'package:cocoforms/features/form_list/providers/form_provider.dart';
+import 'package:cocoforms/features/form/providers/form_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,6 +72,30 @@ class GlobalProviders extends StatelessWidget {
               ChangeNotifierProvider<QuestionChangeNotifier>(
             create: (_) => QuestionChangeNotifier(
               questionRepository: questionRepository,
+            ),
+            child: child,
+          ),
+        ),
+        Provider<OptionRepository>(
+          create: (_) => OptionRepository(store),
+        ),
+        Consumer<OptionRepository>(
+          builder: (_, optionRepository, child) =>
+              ChangeNotifierProvider<OptionChangeNotifier>(
+            create: (_) => OptionChangeNotifier(
+              optionRepository: optionRepository,
+            ),
+            child: child,
+          ),
+        ),
+        Provider<AnswerRepository>(
+          create: (_) => AnswerRepository(store),
+        ),
+        Consumer<AnswerRepository>(
+          builder: (_, answerRepository, child) =>
+              ChangeNotifierProvider<AnswerChangeNotifier>(
+            create: (_) => AnswerChangeNotifier(
+              answerRepository: answerRepository,
             ),
             child: child,
           ),

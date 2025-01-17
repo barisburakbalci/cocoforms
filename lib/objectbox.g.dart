@@ -14,10 +14,11 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'features/folder_detail/data/models/folder_model.dart';
-import 'features/form_edit/data/models/option_model.dart';
-import 'features/form_edit/data/models/question_model.dart';
-import 'features/form_list/data/models/form_model.dart';
+import 'features/folder/data/models/folder_model.dart';
+import 'features/form/data/models/answer_model.dart';
+import 'features/form/data/models/form_model.dart';
+import 'features/form/data/models/option_model.dart';
+import 'features/form/data/models/question_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -25,7 +26,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 4251288855670247676),
       name: 'FormModel',
-      lastPropertyId: const obx_int.IdUid(5, 3174131817905918099),
+      lastPropertyId: const obx_int.IdUid(7, 2094264623973548376),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -44,7 +45,17 @@ final _entities = <obx_int.ModelEntity>[
             type: 11,
             flags: 520,
             indexId: const obx_int.IdUid(1, 2543801620796201057),
-            relationTarget: 'FolderModel')
+            relationTarget: 'FolderModel'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 704665962025940907),
+            name: 'createdDate',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 2094264623973548376),
+            name: 'modifiedDate',
+            type: 10,
+            flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[
@@ -124,6 +135,37 @@ final _entities = <obx_int.ModelEntity>[
             relationTarget: 'FormModel')
       ],
       relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[
+        obx_int.ModelBacklink(
+            name: 'options', srcEntity: 'OptionModel', srcField: 'question'),
+        obx_int.ModelBacklink(
+            name: 'answers', srcEntity: 'OptionModel', srcField: 'question')
+      ]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(5, 4285483977633333431),
+      name: 'AnswerModel',
+      lastPropertyId: const obx_int.IdUid(3, 1627617688351771422),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 4939570843953776883),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 4259403846278035189),
+            name: 'value',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 1627617688351771422),
+            name: 'questionId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(4, 1794037047178594036),
+            relationTarget: 'QuestionModel')
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -162,8 +204,8 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(4, 639330814624886964),
-      lastIndexId: const obx_int.IdUid(3, 5157518316656689396),
+      lastEntityId: const obx_int.IdUid(5, 4285483977633333431),
+      lastIndexId: const obx_int.IdUid(4, 1794037047178594036),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
@@ -188,20 +230,29 @@ obx_int.ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (FormModel object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(6);
+          fbb.startTable(8);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addInt64(2, object.folder.targetId);
+          fbb.addInt64(5, object.createdDate.millisecondsSinceEpoch);
+          fbb.addInt64(6, object.modifiedDate?.millisecondsSinceEpoch);
           fbb.finish(fbb.endTable());
           return object.id;
         },
         objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
+          final modifiedDateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 16);
           final nameParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
           final object = FormModel(name: nameParam)
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
+            ..createdDate = DateTime.fromMillisecondsSinceEpoch(
+                const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0))
+            ..modifiedDate = modifiedDateValue == null
+                ? null
+                : DateTime.fromMillisecondsSinceEpoch(modifiedDateValue);
           object.folder.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
           object.folder.attach(store);
@@ -279,7 +330,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
     QuestionModel: obx_int.EntityDefinition<QuestionModel>(
         model: _entities[3],
         toOneRelations: (QuestionModel object) => [object.form],
-        toManyRelations: (QuestionModel object) => {},
+        toManyRelations: (QuestionModel object) => {
+              obx_int.RelInfo<OptionModel>.toOneBacklink(3, object.id,
+                      (OptionModel srcObject) => srcObject.question):
+                  object.options,
+              obx_int.RelInfo<OptionModel>.toOneBacklink(3, object.id,
+                  (OptionModel srcObject) => srcObject.question): object.answers
+            },
         getId: (QuestionModel object) => object.id,
         setId: (QuestionModel object, int id) {
           object.id = id;
@@ -305,6 +362,46 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.form.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
           object.form.attach(store);
+          obx_int.InternalToManyAccess.setRelInfo<QuestionModel>(
+              object.options,
+              store,
+              obx_int.RelInfo<OptionModel>.toOneBacklink(
+                  3, object.id, (OptionModel srcObject) => srcObject.question));
+          obx_int.InternalToManyAccess.setRelInfo<QuestionModel>(
+              object.answers,
+              store,
+              obx_int.RelInfo<OptionModel>.toOneBacklink(
+                  3, object.id, (OptionModel srcObject) => srcObject.question));
+          return object;
+        }),
+    AnswerModel: obx_int.EntityDefinition<AnswerModel>(
+        model: _entities[4],
+        toOneRelations: (AnswerModel object) => [object.question],
+        toManyRelations: (AnswerModel object) => {},
+        getId: (AnswerModel object) => object.id,
+        setId: (AnswerModel object, int id) {
+          object.id = id;
+        },
+        objectToFB: (AnswerModel object, fb.Builder fbb) {
+          final valueOffset = fbb.writeString(object.value);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, valueOffset);
+          fbb.addInt64(2, object.question.targetId);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final valueParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final object = AnswerModel(id: idParam, value: valueParam);
+          object.question.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          object.question.attach(store);
           return object;
         })
   };
@@ -325,6 +422,14 @@ class FormModel_ {
   /// See [FormModel.folder].
   static final folder = obx.QueryRelationToOne<FormModel, FolderModel>(
       _entities[0].properties[2]);
+
+  /// See [FormModel.createdDate].
+  static final createdDate =
+      obx.QueryDateProperty<FormModel>(_entities[0].properties[3]);
+
+  /// See [FormModel.modifiedDate].
+  static final modifiedDate =
+      obx.QueryDateProperty<FormModel>(_entities[0].properties[4]);
 
   /// see [FormModel.questions]
   static final questions =
@@ -374,4 +479,27 @@ class QuestionModel_ {
   /// See [QuestionModel.form].
   static final form = obx.QueryRelationToOne<QuestionModel, FormModel>(
       _entities[3].properties[2]);
+
+  /// see [QuestionModel.options]
+  static final options = obx.QueryBacklinkToMany<OptionModel, QuestionModel>(
+      OptionModel_.question);
+
+  /// see [QuestionModel.answers]
+  static final answers = obx.QueryBacklinkToMany<OptionModel, QuestionModel>(
+      OptionModel_.question);
+}
+
+/// [AnswerModel] entity fields to define ObjectBox queries.
+class AnswerModel_ {
+  /// See [AnswerModel.id].
+  static final id =
+      obx.QueryIntegerProperty<AnswerModel>(_entities[4].properties[0]);
+
+  /// See [AnswerModel.value].
+  static final value =
+      obx.QueryStringProperty<AnswerModel>(_entities[4].properties[1]);
+
+  /// See [AnswerModel.question].
+  static final question = obx.QueryRelationToOne<AnswerModel, QuestionModel>(
+      _entities[4].properties[2]);
 }

@@ -1,5 +1,5 @@
 import 'package:cocoforms/core/views/widgets/bottom_navbar.dart';
-import 'package:cocoforms/features/form_list/views/forms_screen.dart';
+import 'package:cocoforms/features/form/views/screens/forms_screen.dart';
 import 'package:cocoforms/features/groups/views/groups_screen.dart';
 import 'package:cocoforms/features/profile/views/profile_screen.dart';
 import 'package:cocoforms/features/reports/views/reports_screen.dart';
