@@ -24,10 +24,15 @@ class EditableOption extends StatelessWidget {
 
     return ListTile(
       dense: true,
-      leading: const Icon(
-        Icons.check_box_outline_blank,
-        size: 20.0,
-      ),
+      leading: question.hasMultipleAnswers
+          ? const Icon(
+              Icons.check_box_outline_blank,
+              size: 20.0,
+            )
+          : const Icon(
+              Icons.radio_button_unchecked,
+              size: 20.0,
+            ),
       title: TextField(
         controller: valueController,
         onChanged: (value) async {

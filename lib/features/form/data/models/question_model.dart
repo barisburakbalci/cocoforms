@@ -9,6 +9,10 @@ class QuestionModel {
 
   String expression;
 
+  bool hasMultipleAnswers = false;
+
+  int selectedOptionId = 0;
+
   @Backlink('question')
   final options = ToMany<OptionModel>();
 
@@ -20,6 +24,5 @@ class QuestionModel {
   QuestionModel({
     required this.expression,
     required this.id,
-    //this.answers = const [],
   });
 }

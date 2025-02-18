@@ -29,6 +29,7 @@ class QuestionCard extends StatelessWidget {
                     .map(
                       (option) => OptionCard(
                         option: option,
+                        question: question,
                       ),
                     )
                     .toList(),

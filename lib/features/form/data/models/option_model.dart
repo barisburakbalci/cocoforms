@@ -8,6 +8,8 @@ class OptionModel {
 
   String value;
 
+  bool isChecked = false;
+
   final question = ToOne<QuestionModel>();
 
   OptionModel({

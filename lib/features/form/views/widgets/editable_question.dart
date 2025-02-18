@@ -18,50 +18,64 @@ class EditableQuestion extends StatelessWidget {
       listen: false,
     );
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: expressionController,
-                onChanged: (value) {
-                  question.expression = value;
-                  questionProvider.update(question);
-                },
-              ),
-              Consumer<QuestionChangeNotifier>(
-                builder: (_, ref, child) => Column(
-                  children: question.options
-                      .map(
-                        (option) => EditableOption(
-                          option: option,
-                          question: question,
-                        ),
-                      )
-                      .toList(),
+    return Consumer<QuestionChangeNotifier>(
+      builder: (context, ref, child) => Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text('Çoklu seçim:', style: TextStyle(fontSize: 16)),
+                    Switch(
+                        value: question.hasMultipleAnswers,
+                        onChanged: (value) {
+                          question.hasMultipleAnswers = value;
+                          questionProvider.update(question);
+                        }),
+                  ],
                 ),
-              ),
-              TextButton(
-                onPressed: () {
-                  var option = OptionModel(
-                    id: 0,
-                    value: 'Seçenek',
-                  );
+                TextField(
+                  controller: expressionController,
+                  onChanged: (value) {
+                    question.expression = value;
+                    questionProvider.update(question);
+                  },
+                ),
+                Consumer<QuestionChangeNotifier>(
+                  builder: (_, ref, child) => Column(
+                    children: question.options
+                        .map(
+                          (option) => EditableOption(
+                            option: option,
+                            question: question,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    var option = OptionModel(
+                      id: 0,
+                      value: 'Seçenek',
+                    );
 
-                  var questionProvider = Provider.of<QuestionChangeNotifier>(
-                    context,
-                    listen: false,
-                  );
+                    var questionProvider = Provider.of<QuestionChangeNotifier>(
+                      context,
+                      listen: false,
+                    );
 
-                  questionProvider.addOption(question, option);
-                },
-                child: const Text('Seçenek ekle'),
-              ),
-            ],
+                    questionProvider.addOption(question, option);
+                  },
+                  child: const Text('Seçenek ekle'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
