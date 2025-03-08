@@ -9,6 +9,7 @@ class OptionModel {
   String value;
 
   bool isChecked = false;
+  bool isTemporary = false;
 
   final question = ToOne<QuestionModel>();
 

@@ -61,7 +61,7 @@
     },
     {
       "id": "3:3738450183022150135",
-      "lastPropertyId": "3:5608698633464035029",
+      "lastPropertyId": "4:875397471343548338",
       "name": "OptionModel",
       "properties": [
         {
@@ -80,15 +80,20 @@
           "name": "questionId",
           "type": 11,
           "flags": 520,
-          "indexId": "2:1762350643119696626",
+          "indexId": "9:6656338918699003842",
           "relationTarget": "QuestionModel"
+        },
+        {
+          "id": "4:875397471343548338",
+          "name": "isChecked",
+          "type": 1
         }
       ],
       "relations": []
     },
     {
       "id": "4:639330814624886964",
-      "lastPropertyId": "3:9007974232528459004",
+      "lastPropertyId": "5:5206387997170451740",
       "name": "QuestionModel",
       "properties": [
         {
@@ -109,6 +114,16 @@
           "flags": 520,
           "indexId": "3:5157518316656689396",
           "relationTarget": "FormModel"
+        },
+        {
+          "id": "4:3904484466144291577",
+          "name": "hasMultipleAnswers",
+          "type": 1
+        },
+        {
+          "id": "5:5206387997170451740",
+          "name": "selectedOptionId",
+          "type": 6
         }
       ],
       "relations": []
@@ -142,13 +157,19 @@
     }
   ],
   "lastEntityId": "5:4285483977633333431",
-  "lastIndexId": "4:1794037047178594036",
+  "lastIndexId": "9:6656338918699003842",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
+  "retiredIndexUids": [
+    1762350643119696626,
+    7493536292367080839,
+    5291147235909232868,
+    3543411549557271055,
+    3178552468060278245
+  ],
   "retiredPropertyUids": [
     1738972667126071189,
     3174131817905918099

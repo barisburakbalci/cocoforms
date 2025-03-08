@@ -4,39 +4,39 @@ import 'package:cocoforms/objectbox.g.dart';
 
 class OptionRepository implements Repository<OptionModel> {
   final Store _db;
-  late final Box<OptionModel> _questionBox;
+  late final Box<OptionModel> optionBox;
 
   OptionRepository(this._db) {
-    _questionBox = _db.box<OptionModel>();
+    optionBox = _db.box<OptionModel>();
   }
 
   @override
   Future<OptionModel?> getOne(int id) async {
-    return _questionBox.get(id);
+    return optionBox.get(id);
   }
 
   @override
   Future<List<OptionModel>> getAll() async {
-    return _questionBox.getAll();
+    return optionBox.getAll();
   }
 
   @override
-  Future<bool> insert(OptionModel form) async {
-    return _questionBox.put(form) > 0;
+  Future<bool> insert(OptionModel option) async {
+    return optionBox.put(option) > 0;
   }
 
   @override
   Future<bool> delete(int id) async {
-    return _questionBox.remove(id);
+    return optionBox.remove(id);
   }
 
   @override
-  Future<bool> update(OptionModel form) async {
-    return _questionBox.put(form) > 0;
+  Future<bool> update(OptionModel option) async {
+    return optionBox.put(option) > 0;
   }
 
   @override
   Future<bool> deleteAll() async {
-    return _questionBox.removeAll() > 0;
+    return optionBox.removeAll() > 0;
   }
 }

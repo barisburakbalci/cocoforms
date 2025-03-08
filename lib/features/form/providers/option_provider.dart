@@ -5,24 +5,32 @@ import 'package:flutter/material.dart';
 class OptionChangeNotifier with ChangeNotifier {
   final OptionRepository _optionRepository;
 
-  final List<OptionModel> _options = [];
+  List<OptionModel> _options = [];
   List<OptionModel> get options {
     return _options;
   }
 
   OptionChangeNotifier({required OptionRepository optionRepository})
-      : _optionRepository = optionRepository;
+      : _optionRepository = optionRepository {
+    getAll();
+  }
 
-  Future<List<OptionModel>> getAll() async {
-    _options.clear();
-    _options.addAll(await _optionRepository.getAll());
+  Future<void> getAll() async {
+    _options = await _optionRepository.getAll();
     notifyListeners();
-    return _options;
+  }
+
+  List<OptionModel> getByQuestionId(int questionId) {
+    return _options.where((element) {
+      return element.question.target?.id == questionId;
+    }).toList();
   }
 
   Future<void> add(OptionModel option) async {
     _options.add(option);
-    await _optionRepository.insert(option);
+    if (!option.isTemporary) {
+      await _optionRepository.insert(option);
+    }
     notifyListeners();
   }
 
@@ -33,9 +41,11 @@ class OptionChangeNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> delete(int id) async {
-    _options.removeWhere((element) => element.id == id);
-    await _optionRepository.delete(id);
+  Future<void> delete(OptionModel option) async {
+    _options.remove(option);
+    if (!option.isTemporary) {
+      await _optionRepository.delete(option.id);
+    }
     notifyListeners();
   }
 

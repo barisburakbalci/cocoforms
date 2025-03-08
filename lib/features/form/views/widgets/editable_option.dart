@@ -16,7 +16,6 @@ class EditableOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var valueController = TextEditingController(text: option.value);
     var optionProvider = Provider.of<OptionChangeNotifier>(
       context,
       listen: false,
@@ -33,15 +32,21 @@ class EditableOption extends StatelessWidget {
               Icons.radio_button_unchecked,
               size: 20.0,
             ),
-      title: TextField(
-        controller: valueController,
-        onChanged: (value) async {
-          option.value = value;
+      title: TextFormField(
+        initialValue: option.value,
+        onSaved: (value) async {
+          option.value = value ?? option.value;
           optionProvider.update(option);
         },
         style: const TextStyle(
           fontSize: 15.0,
         ),
+      ),
+      trailing: IconButton(
+        onPressed: () {
+          optionProvider.delete(option);
+        },
+        icon: const Icon(Icons.delete),
       ),
     );
   }

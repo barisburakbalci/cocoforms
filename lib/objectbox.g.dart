@@ -87,7 +87,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(3, 3738450183022150135),
       name: 'OptionModel',
-      lastPropertyId: const obx_int.IdUid(3, 5608698633464035029),
+      lastPropertyId: const obx_int.IdUid(4, 875397471343548338),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -105,15 +105,20 @@ final _entities = <obx_int.ModelEntity>[
             name: 'questionId',
             type: 11,
             flags: 520,
-            indexId: const obx_int.IdUid(2, 1762350643119696626),
-            relationTarget: 'QuestionModel')
+            indexId: const obx_int.IdUid(9, 6656338918699003842),
+            relationTarget: 'QuestionModel'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 875397471343548338),
+            name: 'isChecked',
+            type: 1,
+            flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
       id: const obx_int.IdUid(4, 639330814624886964),
       name: 'QuestionModel',
-      lastPropertyId: const obx_int.IdUid(3, 9007974232528459004),
+      lastPropertyId: const obx_int.IdUid(5, 5206387997170451740),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -132,7 +137,17 @@ final _entities = <obx_int.ModelEntity>[
             type: 11,
             flags: 520,
             indexId: const obx_int.IdUid(3, 5157518316656689396),
-            relationTarget: 'FormModel')
+            relationTarget: 'FormModel'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 3904484466144291577),
+            name: 'hasMultipleAnswers',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 5206387997170451740),
+            name: 'selectedOptionId',
+            type: 6,
+            flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[
@@ -205,11 +220,17 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
       lastEntityId: const obx_int.IdUid(5, 4285483977633333431),
-      lastIndexId: const obx_int.IdUid(4, 1794037047178594036),
+      lastIndexId: const obx_int.IdUid(9, 6656338918699003842),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
-      retiredIndexUids: const [],
+      retiredIndexUids: const [
+        1762350643119696626,
+        7493536292367080839,
+        5291147235909232868,
+        3543411549557271055,
+        3178552468060278245
+      ],
       retiredPropertyUids: const [1738972667126071189, 3174131817905918099],
       retiredRelationUids: const [],
       modelVersion: 5,
@@ -307,10 +328,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (OptionModel object, fb.Builder fbb) {
           final valueOffset = fbb.writeString(object.value);
-          fbb.startTable(4);
+          fbb.startTable(5);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, valueOffset);
           fbb.addInt64(2, object.question.targetId);
+          fbb.addBool(3, object.isChecked);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -321,7 +343,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final valueParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
-          final object = OptionModel(id: idParam, value: valueParam);
+          final object = OptionModel(id: idParam, value: valueParam)
+            ..isChecked =
+                const fb.BoolReader().vTableGet(buffer, rootOffset, 10, false);
           object.question.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
           object.question.attach(store);
@@ -343,10 +367,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (QuestionModel object, fb.Builder fbb) {
           final expressionOffset = fbb.writeString(object.expression);
-          fbb.startTable(4);
+          fbb.startTable(6);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, expressionOffset);
           fbb.addInt64(2, object.form.targetId);
+          fbb.addBool(3, object.hasMultipleAnswers);
+          fbb.addInt64(4, object.selectedOptionId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -357,8 +383,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 6, '');
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final object =
-              QuestionModel(expression: expressionParam, id: idParam);
+          final object = QuestionModel(expression: expressionParam, id: idParam)
+            ..hasMultipleAnswers =
+                const fb.BoolReader().vTableGet(buffer, rootOffset, 10, false)
+            ..selectedOptionId =
+                const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
           object.form.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
           object.form.attach(store);
@@ -464,6 +493,10 @@ class OptionModel_ {
   /// See [OptionModel.question].
   static final question = obx.QueryRelationToOne<OptionModel, QuestionModel>(
       _entities[2].properties[2]);
+
+  /// See [OptionModel.isChecked].
+  static final isChecked =
+      obx.QueryBooleanProperty<OptionModel>(_entities[2].properties[3]);
 }
 
 /// [QuestionModel] entity fields to define ObjectBox queries.
@@ -479,6 +512,14 @@ class QuestionModel_ {
   /// See [QuestionModel.form].
   static final form = obx.QueryRelationToOne<QuestionModel, FormModel>(
       _entities[3].properties[2]);
+
+  /// See [QuestionModel.hasMultipleAnswers].
+  static final hasMultipleAnswers =
+      obx.QueryBooleanProperty<QuestionModel>(_entities[3].properties[3]);
+
+  /// See [QuestionModel.selectedOptionId].
+  static final selectedOptionId =
+      obx.QueryIntegerProperty<QuestionModel>(_entities[3].properties[4]);
 
   /// see [QuestionModel.options]
   static final options = obx.QueryBacklinkToMany<OptionModel, QuestionModel>(

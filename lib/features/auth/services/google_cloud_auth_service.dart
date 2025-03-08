@@ -1,6 +1,7 @@
 import 'package:cocoforms/core/services/preference_service.dart';
 import 'package:cocoforms/features/auth/models/auth_user_model.dart';
 import 'package:cocoforms/features/auth/services/auth_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleCloudAuthService implements AuthService {
@@ -32,6 +33,23 @@ class GoogleCloudAuthService implements AuthService {
 
   @override
   Future<bool> signIn() async {
+    if (kDebugMode) {
+      _preferenceService.setString('email', 'developer email');
+      _preferenceService.setString('user', 'developer name');
+      _preferenceService.setString(
+        'userPhotoURL',
+        'https://avatars.githubusercontent.com/u/139426',
+      );
+
+      _user = AuthUserModel(
+        email: 'developer email',
+        displayName: 'developer name',
+        photoURL: 'https://avatars.githubusercontent.com/u/139426',
+      );
+
+      return true;
+    }
+
     final GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: ['email'],
     );

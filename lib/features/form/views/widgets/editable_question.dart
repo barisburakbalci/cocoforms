@@ -1,5 +1,6 @@
 import 'package:cocoforms/features/form/data/models/option_model.dart';
 import 'package:cocoforms/features/form/data/models/question_model.dart';
+import 'package:cocoforms/features/form/providers/option_provider.dart';
 import 'package:cocoforms/features/form/providers/question_provider.dart';
 import 'package:cocoforms/features/form/views/widgets/editable_option.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +13,8 @@ class EditableQuestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var expressionController = TextEditingController(text: question.expression);
-    var questionProvider = Provider.of<QuestionChangeNotifier>(
-      context,
-      listen: false,
-    );
-
     return Consumer<QuestionChangeNotifier>(
-      builder: (context, ref, child) => Padding(
+      builder: (context, questionProvider, child) => Padding(
         padding: const EdgeInsets.all(10.0),
         child: Card(
           child: Padding(
@@ -31,24 +26,36 @@ class EditableQuestion extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     const Text('Çoklu seçim:', style: TextStyle(fontSize: 16)),
-                    Switch(
-                        value: question.hasMultipleAnswers,
-                        onChanged: (value) {
-                          question.hasMultipleAnswers = value;
-                          questionProvider.update(question);
-                        }),
+                    FormField(
+                      initialValue: false,
+                      builder: (state) {
+                        return Switch(
+                          value: question.hasMultipleAnswers,
+                          onChanged: (value) {
+                            state.didChange(value);
+                            question.hasMultipleAnswers = value;
+                            questionProvider.update(question);
+                          },
+                        );
+                      },
+                      onSaved: (value) {
+                        question.hasMultipleAnswers = value ?? false;
+                        questionProvider.update(question);
+                      },
+                    ),
                   ],
                 ),
-                TextField(
-                  controller: expressionController,
-                  onChanged: (value) {
-                    question.expression = value;
+                TextFormField(
+                  initialValue: question.expression,
+                  onSaved: (value) {
+                    question.expression = value ?? question.expression;
                     questionProvider.update(question);
                   },
                 ),
-                Consumer<QuestionChangeNotifier>(
-                  builder: (_, ref, child) => Column(
-                    children: question.options
+                Consumer<OptionChangeNotifier>(builder: (_, ref, child) {
+                  final options = ref.getByQuestionId(question.id);
+                  return Column(children: [
+                    ...options
                         .map(
                           (option) => EditableOption(
                             option: option,
@@ -56,24 +63,27 @@ class EditableQuestion extends StatelessWidget {
                           ),
                         )
                         .toList(),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    var option = OptionModel(
-                      id: 0,
-                      value: 'Seçenek',
-                    );
+                    TextButton(
+                      onPressed: () {
+                        var option = OptionModel(
+                          id: 0,
+                          value: 'Seçenek ${options.length + 1}',
+                        );
 
-                    var questionProvider = Provider.of<QuestionChangeNotifier>(
-                      context,
-                      listen: false,
-                    );
+                        option.question.target = question;
+                        option.isTemporary = true;
 
-                    questionProvider.addOption(question, option);
-                  },
-                  child: const Text('Seçenek ekle'),
-                ),
+                        var optionProvider = Provider.of<OptionChangeNotifier>(
+                          context,
+                          listen: false,
+                        );
+
+                        optionProvider.add(option);
+                      },
+                      child: const Text('Seçenek ekle'),
+                    ),
+                  ]);
+                }),
               ],
             ),
           ),
